@@ -1,0 +1,167 @@
+.chapter-page {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  transition: all var(--transition-fast);
+}
+
+.back-link:hover {
+  color: var(--accent-red);
+  text-shadow: 0 0 8px rgba(196, 30, 58, 0.3);
+}
+
+.chapter-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.chapter-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-red-dark), transparent 60%);
+}
+
+.chapter-world-label {
+  font-size: 0.65rem;
+  color: var(--accent-red-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.3rem;
+  font-family: var(--font-mono);
+}
+
+.chapter-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-primary);
+}
+
+.chapter-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.chapter-meta {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.chapter-stars {
+  font-size: 0.85rem;
+}
+
+.chapter-accuracy {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* === Exercise list === */
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.exercise-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.exercise-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--accent-red);
+  transition: width var(--transition-fast);
+}
+
+.exercise-item:hover:not(:disabled)::before {
+  width: 2px;
+}
+
+.exercise-item:hover:not(:disabled) {
+  border-color: var(--accent-red-dark);
+  background: var(--bg-panel-hover);
+  box-shadow: 0 0 8px rgba(196, 30, 58, 0.1);
+}
+
+.ex-number {
+  font-size: 0.8rem;
+  color: var(--gold-dark);
+  min-width: 2.5rem;
+  letter-spacing: 0.05em;
+}
+
+.ex-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.ex-name {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.ex-desc {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ex-arrow {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.exercise-locked {
+  opacity: 0.2;
+}
+
+.exercise-locked:hover {
+  border-color: var(--border);
+  box-shadow: none;
+  background: var(--bg-panel);
+}
+
+.exercise-locked::before {
+  display: none;
+}
+
+.ex-lock {
+  font-size: 0.75rem;
+  opacity: 0.5;
+}

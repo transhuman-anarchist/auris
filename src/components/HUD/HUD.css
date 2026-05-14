@@ -1,0 +1,115 @@
+/* === XP Bar === */
+.xp-bar-container {
+  width: 100%;
+}
+
+.xp-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--gold-dark);
+  margin-bottom: 3px;
+  letter-spacing: 0.05em;
+}
+
+.xp-bar-track {
+  height: 6px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-red-dark), var(--gold-dark), var(--gold));
+  border-radius: 1px;
+  transition: width 0.8s ease;
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.3);
+}
+
+/* === Level Badge === */
+.level-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.level-number {
+  font-size: 0.9rem;
+  color: var(--gold);
+  font-weight: 700;
+  text-shadow: 0 0 6px rgba(201, 168, 76, 0.2);
+}
+
+.level-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* === Streak Counter === */
+.streak-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.streak-current {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.streak-flame {
+  font-size: 0.9rem;
+}
+
+.streak-number {
+  font-size: 1.1rem;
+  color: var(--accent-orange);
+  text-shadow: 0 0 8px rgba(212, 80, 10, 0.3);
+}
+
+.streak-multiplier {
+  font-size: 0.7rem;
+  color: var(--gold);
+  padding: 1px 5px;
+  border: 1px solid var(--gold-dark);
+  border-radius: 1px;
+  background: rgba(201, 168, 76, 0.05);
+  text-shadow: 0 0 4px rgba(201, 168, 76, 0.2);
+}
+
+.streak-daily {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+/* === Session Stats === */
+.session-stats {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.stat-label {
+  font-size: 0.55rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}

@@ -1,0 +1,145 @@
+.exercise-page-missing {
+  padding: 2rem;
+}
+
+.exercise-controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.listen-hint {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+}
+
+/* === Progress bar to pass === */
+.progress-bar-mini {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress-bar-mini-track {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-mini-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-red-dark), var(--success));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.progress-bar-mini-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+/* === Exercise passed === */
+.exercise-passed {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: rgba(57, 255, 20, 0.05);
+  border: 2px solid var(--success);
+  border-radius: 4px;
+  animation: passed-glow 2s ease-in-out infinite;
+}
+
+.passed-badge {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--success);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.passed-text {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.passed-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+@keyframes passed-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(57, 255, 20, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.2); }
+}
+
+/* === Sing degree === */
+.sing-degree-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.sing-prompt {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.sing-prompt .mono {
+  font-size: 2rem;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.listen-only-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* === Chord choice buttons (qualities, inversions, cadences) === */
+.chord-choice-buttons {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 500px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chord-choice-buttons .binary-btn {
+  min-width: 100px;
+  flex: 1 1 calc(50% - 0.75rem);
+  max-width: 200px;
+}
+
+/* === Position buttons (phrase diff, ghost note) === */
+.position-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.position-prompt {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+}

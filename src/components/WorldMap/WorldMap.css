@@ -1,0 +1,213 @@
+/* === World Map === */
+.world-map {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 1.5rem 0 5rem;
+}
+
+/* === World Section === */
+.world-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.world-header {
+  position: relative;
+  padding: 1rem 1.5rem;
+  background:
+    linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, transparent 60%),
+    var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-red);
+  overflow: hidden;
+}
+
+.world-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(196, 30, 58, 0.05), transparent 40%);
+  pointer-events: none;
+}
+
+.world-title {
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-red);
+  text-shadow: 0 0 15px rgba(196, 30, 58, 0.3);
+}
+
+.world-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* === Path === */
+.world-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 0 0.5rem;
+}
+
+.node-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+}
+
+.path-connector {
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(
+    180deg,
+    var(--accent-red-dark),
+    rgba(196, 30, 58, 0.15),
+    var(--accent-red-dark)
+  );
+}
+
+/* === Node === */
+.world-node {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  text-align: left;
+  transition: all var(--transition-fast);
+  text-transform: none;
+  position: relative;
+}
+
+.world-node::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(196, 30, 58, 0.03), transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.world-node:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.world-node:hover:not(:disabled) {
+  border-color: var(--accent-red);
+  box-shadow:
+    0 0 15px rgba(196, 30, 58, 0.3),
+    inset 0 0 30px rgba(196, 30, 58, 0.03);
+  transform: translateX(2px);
+}
+
+/* --- Node states --- */
+.node-locked {
+  opacity: 0.25;
+  border-color: var(--border);
+}
+
+.node-current {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 8px rgba(196, 30, 58, 0.2);
+  animation: node-pulse 3s ease-in-out infinite;
+}
+
+.node-current::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--accent-red);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-red);
+  animation: dot-pulse 1.5s ease-in-out infinite;
+}
+
+.node-completed {
+  border-color: var(--gold-dark);
+}
+
+.node-completed .node-hex {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--bg-primary);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.2);
+}
+
+@keyframes node-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(196, 30, 58, 0.15); }
+  50% { box-shadow: 0 0 20px rgba(196, 30, 58, 0.35); }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+  50% { opacity: 0.4; transform: translateY(-50%) scale(0.7); }
+}
+
+/* --- Hex icon --- */
+.node-hex {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--accent-red-dark);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.node-number {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* --- Node info --- */
+.node-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.node-name {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.node-stars {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.node-lock {
+  font-size: 0.7rem;
+  opacity: 0.4;
+}
