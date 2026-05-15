@@ -607,6 +607,92 @@ export const CHAPTERS = {
       { id: '23_8', name: 'Pool completo', type: 'polyrhythm_id', description: 'Identifica tra tutte le poliritmie.', polyPool: ['3:2', '2:3', '4:3', '3:4', '5:4', '4:5'], bpm: 85 },
     ]),
   },
+
+  // ─── MONDO VII — TRASCRIZIONE INTEGRATA ────────────────────
+
+  24: {
+    id: 24, worldId: 7,
+    name: 'Trascrizione Melodica Completa',
+    description: 'Melodia + ritmo insieme. Trascrivi tutto.',
+    exerciseCount: 12,
+    exercises: buildExercises(24, [
+      { id: '24_1', name: 'Frase 4 note con ritmo', type: 'melodic_phrase', description: 'Trascrivi i gradi di una frase di 4 note con ritmo.', pool: [1,2,3,4,5,6,7], length: 4, bpm: 60 },
+      { id: '24_2', name: 'Frase 6 note', type: 'melodic_phrase', description: 'Frase di 6 note — trascrivi i gradi.', pool: [1,2,3,4,5,6,7], length: 6, bpm: 60 },
+      { id: '24_3', name: 'Frase 8 note', type: 'melodic_phrase', description: 'Frase di 8 note — trascrivi tutto.', pool: [1,2,3,4,5,6,7], length: 8, bpm: 60 },
+      { id: '24_4', name: 'Frase su progressione', type: 'melody_over_changes', description: 'Frase di 8 note su progressione armonica — il drone cambia.', length: 8, bpm: 80 },
+      { id: '24_5', name: 'Velocità 60 BPM', type: 'melodic_phrase', description: 'Frase 6 note a 60 BPM.', pool: [1,2,3,4,5,6,7], length: 6, bpm: 60 },
+      { id: '24_6', name: 'Velocità 80 BPM', type: 'melodic_phrase', description: 'Frase 6 note a 80 BPM.', pool: [1,2,3,4,5,6,7], length: 6, bpm: 80 },
+      { id: '24_7', name: 'Velocità 100 BPM', type: 'melodic_phrase', description: 'Frase 6 note a 100 BPM.', pool: [1,2,3,4,5,6,7], length: 6, bpm: 100 },
+      { id: '24_8', name: 'Velocità 120 BPM', type: 'melodic_phrase', description: 'Frase 6 note a 120 BPM.', pool: [1,2,3,4,5,6,7], length: 6, bpm: 120 },
+      { id: '24_9', name: 'Lick di basso complesso', type: 'melodic_phrase', description: 'Lick di basso di 8 note — trascrivi tutto.', pool: [1,2,3,4,5,6,7], length: 8, bpm: 80 },
+      { id: '24_10', name: 'Retention totale', type: 'melodic_phrase', description: 'Senti 8 note, silenzio 20s, trascrivi.', pool: [1,2,3,4,5,6,7], length: 8, bpm: 60, retention: 20 },
+      { id: '24_11', name: 'Nucleo melodico', type: 'transcription_core', description: 'Frase con ornamenti — trascrivi solo il nucleo melodico.', pool: [1,2,3,4,5,6,7], length: 6, bpm: 80 },
+      { id: '24_12', name: 'Domanda-risposta o variazione?', type: 'phrase_relation', description: 'Due frasi: sono domanda-risposta o variazioni?' },
+    ]),
+  },
+
+  25: {
+    id: 25, worldId: 7,
+    name: 'Trascrizione Armonica Completa',
+    description: 'Progressioni di accordi a tempo reale.',
+    exerciseCount: 12,
+    exercises: buildExercises(25, [
+      { id: '25_1', name: 'Progressione 4 accordi', type: 'full_progression', description: 'Trascrivi i gradi di 4 accordi.', length: 4 },
+      { id: '25_2', name: 'Progressione 4 con BPM', type: 'full_progression', description: 'Progressione 4 accordi a 80 BPM.', length: 4, bpm: 80 },
+      { id: '25_3', name: 'Progressione 6 accordi', type: 'full_progression', description: 'Trascrivi 6 accordi.', length: 6 },
+      { id: '25_4', name: 'Progressione 6 con BPM', type: 'full_progression', description: 'Progressione 6 accordi a 90 BPM.', length: 6, bpm: 90 },
+      { id: '25_5', name: 'Progressione 8 accordi', type: 'full_progression', description: 'Trascrivi 8 accordi.', length: 8 },
+      { id: '25_6', name: 'Progressione 8 con BPM', type: 'full_progression', description: 'Progressione 8 accordi a 90 BPM.', length: 8, bpm: 90 },
+      { id: '25_7', name: 'Progressione 10 accordi', type: 'full_progression', description: 'Trascrivi 10 accordi.', length: 10 },
+      { id: '25_8', name: 'Progressione 10 con BPM', type: 'full_progression', description: 'Progressione 10 accordi a 100 BPM.', length: 10, bpm: 100 },
+      { id: '25_9', name: 'Progressione 12 accordi', type: 'full_progression', description: 'Trascrivi 12 accordi.', length: 12 },
+      { id: '25_10', name: 'Progressione 14 accordi', type: 'full_progression', description: 'Trascrivi 14 accordi.', length: 14, bpm: 100 },
+      { id: '25_11', name: 'Progressione 16 accordi', type: 'full_progression', description: 'Trascrivi 16 accordi.', length: 16, bpm: 100 },
+      { id: '25_12', name: 'Retention armonica', type: 'full_progression', description: 'Progressione 8 accordi, silenzio 15s, trascrivi.', length: 8, bpm: 80, retention: 15 },
+    ]),
+  },
+
+  26: {
+    id: 26, worldId: 7,
+    name: 'Improvvisazione Guidata',
+    description: 'Improvvisa sulle progressioni. Autovalutazione.',
+    exerciseCount: 12,
+    exercises: buildExercises(26, [
+      { id: '26_1', name: 'Suona il grado 1', type: 'improv_guided', description: 'Progressione I-IV-V-I — suona il grado 1 su ogni accordo.', progression: [1, 4, 5, 1], bpm: 80, instruction: 'Suona/canta il grado 1 su ogni accordo' },
+      { id: '26_2', name: 'Gradi stabili', type: 'improv_guided', description: 'Suona i gradi stabili (1, 3, 5) dell\'accordo corrente.', progression: [1, 4, 5, 1], bpm: 80, instruction: 'Suona i gradi stabili (1, 3, 5) su ogni accordo' },
+      { id: '26_3', name: 'Frase risposta', type: 'call_response', description: 'L\'app suona 4 note — inventa una risposta. Autovalutazione.', pool: [1,2,3,4,5,6,7], length: 4, bpm: 80 },
+      { id: '26_4', name: 'Improv su I-vi-IV-V', type: 'improv_guided', description: 'Improvvisa su I-vi-IV-V.', progression: [1, 6, 4, 5], bpm: 80, instruction: 'Improvvisa liberamente sulla progressione' },
+      { id: '26_5', name: 'Improv su I-IV-vi-V', type: 'improv_guided', description: 'Improvvisa su I-IV-vi-V.', progression: [1, 4, 6, 5], bpm: 85, instruction: 'Improvvisa liberamente sulla progressione' },
+      { id: '26_6', name: 'Improv su I-V-vi-IV', type: 'improv_guided', description: 'Improvvisa su I-V-vi-IV.', progression: [1, 5, 6, 4], bpm: 85, instruction: 'Improvvisa liberamente sulla progressione' },
+      { id: '26_7', name: 'Improv 6 accordi', type: 'improv_guided', description: 'Progressione di 6 accordi.', progression: [1, 6, 2, 5, 1, 4], bpm: 90, instruction: 'Improvvisa sulla progressione estesa' },
+      { id: '26_8', name: 'Improv 8 accordi', type: 'improv_guided', description: 'Progressione di 8 accordi.', progression: [1, 4, 6, 5, 1, 2, 5, 1], bpm: 90, instruction: 'Improvvisa sulla progressione lunga' },
+      { id: '26_9', name: 'Improv su ii-V-I', type: 'improv_guided', description: 'Improvvisa su ii-V-I — 2 misure.', progression: [2, 5, 1], bpm: 80, instruction: 'Improvvisa sul ii-V-I' },
+      { id: '26_10', name: 'Improv libera 8 misure', type: 'improv_guided', description: 'Improvvisazione libera su 8 misure.', progression: [1, 4, 5, 1, 6, 2, 5, 1], bpm: 85, instruction: 'Improvvisazione libera — esprimi te stesso!' },
+      { id: '26_11', name: 'Registra e confronta', type: 'improv_record', description: 'Registra la tua improvvisazione e confronta.', progression: [1, 4, 5, 1], bpm: 80 },
+      { id: '26_12', name: 'Call and response', type: 'call_response', description: 'L\'app suona un lick — imitalo immediatamente.', pool: [1,2,3,5,6], length: 6, bpm: 80 },
+    ]),
+  },
+
+  27: {
+    id: 27, worldId: 7,
+    name: 'Intonazione',
+    description: 'Canta i gradi — usa un intonatore esterno.',
+    exerciseCount: 12,
+    exercises: buildExercises(27, [
+      { id: '27_1', name: 'Canta il grado 3', type: 'intonation_sing', description: 'L\'app suona il grado 1 — canta il grado 3.', targetDegree: 3 },
+      { id: '27_2', name: 'Canta il grado 5', type: 'intonation_sing', description: 'L\'app suona il grado 1 — canta il grado 5.', targetDegree: 5 },
+      { id: '27_3', name: 'Canta il grado 2', type: 'intonation_sing', description: 'Canta il grado 2 su drone.', targetDegree: 2 },
+      { id: '27_4', name: 'Canta il grado 4', type: 'intonation_sing', description: 'Canta il grado 4 su drone.', targetDegree: 4 },
+      { id: '27_5', name: 'Canta il grado 6', type: 'intonation_sing', description: 'Canta il grado 6 su drone.', targetDegree: 6 },
+      { id: '27_6', name: 'Canta il grado 7', type: 'intonation_sing', description: 'Canta il grado 7 su drone.', targetDegree: 7 },
+      { id: '27_7', name: 'Grado casuale (1-5)', type: 'intonation_sing', description: 'Canta il grado richiesto — pool 1-5.', pool: [1,2,3,4,5] },
+      { id: '27_8', name: 'Grado casuale (1-7)', type: 'intonation_sing', description: 'Canta il grado richiesto — pool completo.', pool: [1,2,3,4,5,6,7] },
+      { id: '27_9', name: 'Grado minore', type: 'intonation_sing', description: 'Canta il grado richiesto su scala minore.', pool: [1,2,3,4,5,6,7], scaleType: 'minor' },
+      { id: '27_10', name: 'Grado modale', type: 'intonation_sing', description: 'Canta il grado su modo dorico.', pool: [1,2,3,4,5,6,7], scaleType: 'dorian' },
+      { id: '27_11', name: 'Canta la scala completa', type: 'intonation_scale', description: 'Canta tutta la scala maggiore in intonazione.' },
+      { id: '27_12', name: 'Canta ii-V-I arpeggiato', type: 'intonation_arpeggio', description: 'Canta gli arpeggi di un ii-V-I.', progression: [2, 5, 1] },
+    ]),
+  },
 };
 
 function buildExercises(chapterId, exerciseList) {

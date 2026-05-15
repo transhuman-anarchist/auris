@@ -1361,6 +1361,178 @@ export function generatePolyrhythmCountQuestion({ voice1Beats, voice2Beats, foll
   };
 }
 
+// ─── MONDO VII — Trascrizione integrata ─────────────────────
+
+export function generateMelodyOverChangesQuestion({ length = 8, rootMidi = 60, bpm = 80, progression = null }) {
+  const prog = progression || pickRandom([
+    [1, 4, 5, 1], [1, 6, 4, 5], [1, 5, 6, 4], [2, 5, 1, 1],
+  ]);
+  const notesPerChord = Math.ceil(length / prog.length);
+  const allDegrees = [];
+  const chordsMidi = [];
+
+  for (const degree of prog) {
+    chordsMidi.push(buildDiatonicTriadMidi(degree, rootMidi));
+    const chordTones = getTriadScaleDegrees(degree);
+    const pool = [1, 2, 3, 4, 5, 6, 7];
+    for (let i = 0; i < notesPerChord && allDegrees.length < length; i++) {
+      allDegrees.push(i === 0 ? pickRandom(chordTones) : pickRandom(pool));
+    }
+  }
+
+  const midiNotes = allDegrees.map(d => degreeToMidi(d, rootMidi));
+  return {
+    type: 'melody_over_changes',
+    midiNotes,
+    correctDegrees: allDegrees,
+    chordsMidi,
+    progression: prog,
+    rootMidi,
+    bpm,
+    length: allDegrees.length,
+    notesPerChord,
+  };
+}
+
+export function generateTranscriptionCoreQuestion({ pool, length = 6, rootMidi = 60, bpm = 80 }) {
+  const coreDegrees = [];
+  for (let i = 0; i < length; i++) coreDegrees.push(pickRandom(pool));
+
+  const fullMidi = [];
+  const ornamentPositions = [];
+
+  coreDegrees.forEach((deg, i) => {
+    fullMidi.push(degreeToMidi(deg, rootMidi));
+    if (i < coreDegrees.length - 1 && Math.random() > 0.5) {
+      const nextMidi = degreeToMidi(coreDegrees[i + 1], rootMidi);
+      const currentMidi = degreeToMidi(deg, rootMidi);
+      const ornMidi = currentMidi + (nextMidi > currentMidi ? 1 : -1);
+      fullMidi.push(ornMidi);
+      ornamentPositions.push(fullMidi.length - 1);
+    }
+  });
+
+  return {
+    type: 'transcription_core',
+    midiNotes: fullMidi,
+    correctDegrees: coreDegrees,
+    ornamentPositions,
+    rootMidi,
+    bpm,
+    length: coreDegrees.length,
+  };
+}
+
+export function generatePhraseRelationQuestion({ rootMidi = 60 }) {
+  const pool = [1, 2, 3, 4, 5, 6, 7];
+  const isQA = Math.random() > 0.5;
+
+  if (isQA) {
+    const phrase1 = [];
+    for (let i = 0; i < 4; i++) phrase1.push(pickRandom(pool));
+    phrase1[3] = pickRandom([2, 4, 5, 7]);
+
+    const phrase2 = [];
+    for (let i = 0; i < 4; i++) phrase2.push(pickRandom(pool));
+    phrase2[3] = 1;
+
+    return {
+      type: 'phrase_relation',
+      midiNotes1: phrase1.map(d => degreeToMidi(d, rootMidi)),
+      midiNotes2: phrase2.map(d => degreeToMidi(d, rootMidi)),
+      correctAnswer: 'domanda-risposta',
+      rootMidi,
+    };
+  } else {
+    const phrase1 = [];
+    for (let i = 0; i < 4; i++) phrase1.push(pickRandom(pool));
+
+    const phrase2 = [...phrase1];
+    const changeIdx = Math.floor(Math.random() * 4);
+    phrase2[changeIdx] = pickRandom(pool.filter(d => d !== phrase1[changeIdx]));
+
+    return {
+      type: 'phrase_relation',
+      midiNotes1: phrase1.map(d => degreeToMidi(d, rootMidi)),
+      midiNotes2: phrase2.map(d => degreeToMidi(d, rootMidi)),
+      correctAnswer: 'variazione',
+      rootMidi,
+    };
+  }
+}
+
+export function generateImprovGuidedQuestion({ progression = [1, 4, 5, 1], rootMidi = 60, bpm = 80, instruction = '' }) {
+  const chordsMidi = progression.map(d => buildDiatonicTriadMidi(d, rootMidi));
+  return {
+    type: 'improv_guided',
+    chordsMidi,
+    progression,
+    rootMidi,
+    bpm,
+    instruction,
+  };
+}
+
+export function generateImprovRecordQuestion({ progression = [1, 4, 5, 1], rootMidi = 60, bpm = 80 }) {
+  const chordsMidi = progression.map(d => buildDiatonicTriadMidi(d, rootMidi));
+  return {
+    type: 'improv_record',
+    chordsMidi,
+    progression,
+    rootMidi,
+    bpm,
+  };
+}
+
+export function generateCallResponseQuestion({ pool, length = 4, rootMidi = 60, bpm = 80, scaleType = 'major' }) {
+  const degrees = [];
+  for (let i = 0; i < length; i++) degrees.push(pickRandom(pool));
+  const midiNotes = degrees.map(d => degreeToMidi(d, rootMidi, scaleType));
+  return {
+    type: 'call_response',
+    midiNotes,
+    degrees,
+    rootMidi,
+    bpm,
+    scaleType,
+    length,
+  };
+}
+
+export function generateIntonationQuestion({ targetDegree, rootMidi = 60, scaleType = 'major' }) {
+  const targetMidi = degreeToMidi(targetDegree, rootMidi, scaleType);
+  return {
+    type: 'intonation_sing',
+    referenceMidi: rootMidi,
+    targetMidi,
+    targetDegree,
+    rootMidi,
+    scaleType,
+  };
+}
+
+export function generateIntonationScaleQuestion({ rootMidi = 60, scaleType = 'major' }) {
+  const intervals = getScaleIntervals(scaleType);
+  const midiNotes = intervals.map(i => rootMidi + i);
+  midiNotes.push(rootMidi + 12);
+  return {
+    type: 'intonation_scale',
+    midiNotes,
+    rootMidi,
+    scaleType,
+  };
+}
+
+export function generateIntonationArpeggioQuestion({ progression = [2, 5, 1], rootMidi = 60 }) {
+  const chordsMidi = progression.map(d => buildDiatonicTriadMidi(d, rootMidi));
+  return {
+    type: 'intonation_arpeggio',
+    chordsMidi,
+    progression,
+    rootMidi,
+  };
+}
+
 export function generateQuestionForExercise(exercise, rootMidi = 60) {
   const scaleType = exercise.scaleType || 'major';
 
@@ -1797,6 +1969,67 @@ export function generateQuestionForExercise(exercise, rootMidi = 60) {
         voice2Beats: exercise.voice2Beats || 4,
         followVoice: exercise.followVoice || 'basso',
         bpm: exercise.bpm || 80,
+      });
+
+    // ─── MONDO VII types ──────────────────────────────────────
+
+    case 'melody_over_changes':
+      return generateMelodyOverChangesQuestion({
+        length: exercise.length || 8,
+        rootMidi,
+        bpm: exercise.bpm || 80,
+        progression: exercise.progression || null,
+      });
+
+    case 'transcription_core':
+      return generateTranscriptionCoreQuestion({
+        pool: exercise.pool || [1,2,3,4,5,6,7],
+        length: exercise.length || 6,
+        rootMidi,
+        bpm: exercise.bpm || 80,
+      });
+
+    case 'phrase_relation':
+      return generatePhraseRelationQuestion({ rootMidi });
+
+    case 'improv_guided':
+      return generateImprovGuidedQuestion({
+        progression: exercise.progression || [1, 4, 5, 1],
+        rootMidi,
+        bpm: exercise.bpm || 80,
+        instruction: exercise.instruction || '',
+      });
+
+    case 'improv_record':
+      return generateImprovRecordQuestion({
+        progression: exercise.progression || [1, 4, 5, 1],
+        rootMidi,
+        bpm: exercise.bpm || 80,
+      });
+
+    case 'call_response':
+      return generateCallResponseQuestion({
+        pool: exercise.pool || [1,2,3,4,5,6,7],
+        length: exercise.length || 4,
+        rootMidi,
+        bpm: exercise.bpm || 80,
+        scaleType,
+      });
+
+    case 'intonation_sing':
+      return generateIntonationQuestion({
+        targetDegree: exercise.targetDegree || pickRandom(exercise.pool || [1,3,5]),
+        rootMidi,
+        scaleType,
+      });
+
+    case 'intonation_scale':
+      return generateIntonationScaleQuestion({ rootMidi, scaleType });
+
+    case 'intonation_arpeggio':
+      return generateIntonationArpeggioQuestion({
+        progression: exercise.progression || [2, 5, 1],
+        rootMidi,
       });
 
     default:

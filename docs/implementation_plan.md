@@ -279,19 +279,19 @@
 ## MONDO VII — Trascrizione integrata
 
 ### Capitolo 24 — Trascrizione melodica completa
-- [ ] Ex 24.1-24.12
+- [x] Ex 24.1-24.12
 - [ ] Test capitolo 24
 
 ### Capitolo 25 — Trascrizione armonica completa
-- [ ] Ex 25.1-25.12
+- [x] Ex 25.1-25.12
 - [ ] Test capitolo 25
 
 ### Capitolo 26 — Improvvisazione guidata
-- [ ] Ex 26.1-26.12
+- [x] Ex 26.1-26.12
 - [ ] Test capitolo 26
 
 ### Capitolo 27 — Intonazione (con intonatore esterno)
-- [ ] Ex 27.1-27.12
+- [x] Ex 27.1-27.12
 - [ ] Test capitolo 27
 - [ ] **COMMIT GIT: "feat: Mondo VII completo e testato"**
 

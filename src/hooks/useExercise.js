@@ -61,6 +61,22 @@ function formatCorrectAnswer(question) {
       return String(question.correctAnswer);
     case 'rhythm_grid':
       return question.correctGrid.map(v => v > 0 ? 1 : 0);
+    // ─── MONDO VII types ──────────────────────────────────────
+    case 'melody_over_changes':
+    case 'transcription_core':
+      return question.correctDegrees;
+    case 'phrase_relation':
+      return question.correctAnswer;
+    case 'improv_guided':
+    case 'improv_record':
+    case 'call_response':
+      return 'Autovalutazione';
+    case 'intonation_sing':
+      return `Grado ${question.targetDegree}`;
+    case 'intonation_scale':
+      return 'Scala completa';
+    case 'intonation_arpeggio':
+      return 'ii-V-I arpeggiato';
     // ─── MONDO V types ──────────────────────────────────────
     case 'seventh_quality':
       return SEVENTH_QUALITY_IT[question.correctAnswer] || question.correctAnswer;
@@ -314,6 +330,18 @@ export default function useExercise(exercise) {
       if (Array.isArray(answer) && answer.length === question.correctGrid.length) {
         correct = answer.every((a, i) => Number(a) === (question.correctGrid[i] > 0 ? 1 : 0));
       }
+    }
+    // ─── MONDO VII types ──────────────────────────────────────
+    else if (question.type === 'melody_over_changes' || question.type === 'transcription_core') {
+      if (Array.isArray(answer) && answer.length === question.correctDegrees.length) {
+        correct = answer.every((a, i) => Number(a) === question.correctDegrees[i]);
+      }
+    } else if (question.type === 'phrase_relation') {
+      correct = answer === question.correctAnswer;
+    } else if (question.type === 'improv_guided' || question.type === 'improv_record' ||
+               question.type === 'call_response' || question.type === 'intonation_sing' ||
+               question.type === 'intonation_scale' || question.type === 'intonation_arpeggio') {
+      correct = answer === 'correct';
     }
 
     if (!dailyStreakUpdated.current) {

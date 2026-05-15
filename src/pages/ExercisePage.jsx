@@ -42,12 +42,14 @@ const SEQUENCE_TYPES = new Set([
   'progression_bass', 'progression_soprano',
   'modal_lick', 'chromatic_tension_sequence',
   'seventh_sequence', 'seventh_quality_inversion', 'full_progression',
+  'melody_over_changes', 'transcription_core',
 ]);
 
 const NOTE_GRID_SEQ_TYPES = new Set([
   'degree_sequence', 'melodic_phrase', 'ornament_pair', 'ornament_lick',
   'progression_bass', 'progression_soprano',
   'modal_lick',
+  'melody_over_changes', 'transcription_core',
 ]);
 
 const SINGLE_DEGREE_TYPES = new Set([
@@ -84,6 +86,10 @@ export default function ExercisePage() {
   const [hasPlayed, setHasPlayed] = useState(false);
   const [exerciseComplete, setExerciseComplete] = useState(false);
   const [singRevealed, setSingRevealed] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordedAudioUrl, setRecordedAudioUrl] = useState(null);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
 
   // Track inline setTimeout IDs so they can be cleared on rapid re-play.
   // AudioEngine.stopAll only clears its own _sequenceTimers, but playQuestionAudio
@@ -101,6 +107,8 @@ export default function ExercisePage() {
     setSequenceInput([]);
     sequenceInputRef.current = [];
     setSingRevealed(false);
+    setIsRecording(false);
+    setRecordedAudioUrl(null);
   }, [exerciseId]);
 
   useEffect(() => {
@@ -631,6 +639,101 @@ export default function ExercisePage() {
         break;
       }
 
+      // ─── MONDO VII types ──────────────────────────────────
+
+      case 'melody_over_changes': {
+        startDrone(rootMidi);
+        later(() => {
+          const beatMs = (60 / q.bpm) * 1000;
+          let noteIdx = 0;
+          q.chordsMidi.forEach((chord, chordIdx) => {
+            const chordDelay = chordIdx * q.notesPerChord * beatMs;
+            later(() => playChord(chord, q.notesPerChord * beatMs / 1000 * 0.9), chordDelay);
+            for (let i = 0; i < q.notesPerChord && noteIdx < q.midiNotes.length; i++, noteIdx++) {
+              const noteDelay = chordDelay + i * beatMs;
+              const midi = q.midiNotes[noteIdx];
+              later(() => playNote(midi, beatMs / 1000 * 0.8), noteDelay);
+            }
+          });
+          if (exercise?.retention > 0) {
+            const totalMs = q.midiNotes.length * beatMs;
+            later(() => startRetention(), totalMs);
+          }
+        }, 500);
+        break;
+      }
+
+      case 'transcription_core': {
+        startDrone(rootMidi);
+        later(() => {
+          const totalSec = playPhraseAtBPM(q.midiNotes, q.bpm, null);
+          if (exercise?.retention > 0) {
+            later(() => startRetention(), totalSec * 1000);
+          }
+        }, 500);
+        break;
+      }
+
+      case 'phrase_relation': {
+        startDrone(rootMidi);
+        later(() => {
+          playSequence(q.midiNotes1, 0.6, 0.1);
+          const gap = q.midiNotes1.length * 0.7 * 1000 + 1000;
+          later(() => playSequence(q.midiNotes2, 0.6, 0.1), gap);
+        }, 500);
+        break;
+      }
+
+      case 'improv_guided': {
+        startDrone(rootMidi);
+        later(() => {
+          if (q.bpm) {
+            playChordProgressionAtBPM(q.chordsMidi, q.bpm);
+          } else {
+            playChordSequence(q.chordsMidi, 1.5, 0.5);
+          }
+        }, 500);
+        break;
+      }
+
+      case 'improv_record': {
+        startDrone(rootMidi);
+        later(() => {
+          if (q.bpm) {
+            playChordProgressionAtBPM(q.chordsMidi, q.bpm);
+          } else {
+            playChordSequence(q.chordsMidi, 1.5, 0.5);
+          }
+        }, 500);
+        break;
+      }
+
+      case 'call_response': {
+        startDrone(rootMidi);
+        later(() => {
+          if (q.bpm) playPhraseAtBPM(q.midiNotes, q.bpm, null);
+          else playSequence(q.midiNotes, 0.6, 0.1);
+        }, 500);
+        break;
+      }
+
+      case 'intonation_sing': {
+        startDrone(rootMidi);
+        later(() => playNote(q.referenceMidi, 1.5), 500);
+        break;
+      }
+
+      case 'intonation_scale': {
+        startDrone(rootMidi);
+        break;
+      }
+
+      case 'intonation_arpeggio': {
+        startDrone(rootMidi);
+        later(() => playChordSequence(q.chordsMidi, 1.5, 0.5), 500);
+        break;
+      }
+
       default:
         break;
     }
@@ -693,6 +796,47 @@ export default function ExercisePage() {
   const handleFeedbackDismiss = useCallback(() => {
     dismissFeedback();
   }, [dismissFeedback]);
+
+  const handleSelfAssess = useCallback((correct) => {
+    if (phase !== 'answering') return;
+    checkAnswer(correct ? 'correct' : 'wrong');
+  }, [phase, checkAnswer]);
+
+  const handleStartRecording = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      audioChunksRef.current = [];
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+      recorder.onstop = () => {
+        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        setRecordedAudioUrl(url);
+        stream.getTracks().forEach(t => t.stop());
+      };
+      mediaRecorderRef.current = recorder;
+      recorder.start();
+      setIsRecording(true);
+    } catch (e) {
+      // Microphone not available — skip silently
+    }
+  }, []);
+
+  const handleStopRecording = useCallback(() => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  }, [isRecording]);
+
+  const handlePlayRecording = useCallback(() => {
+    if (recordedAudioUrl) {
+      const audio = new Audio(recordedAudioUrl);
+      audio.play();
+    }
+  }, [recordedAudioUrl]);
 
   const handleUndoSequence = useCallback(() => {
     setSequenceInput(prev => {
@@ -1410,6 +1554,159 @@ export default function ExercisePage() {
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* ─── MONDO VII answer UIs ─────────────────────────── */}
+
+          {/* Phrase relation */}
+          {question.type === 'phrase_relation' && (
+            <div className="binary-buttons">
+              <button className="binary-btn" onClick={() => handleBinaryAnswer('domanda-risposta')}>Domanda-Risposta</button>
+              <button className="binary-btn" onClick={() => handleBinaryAnswer('variazione')}>Variazione</button>
+            </div>
+          )}
+
+          {/* Improvisation guided */}
+          {question.type === 'improv_guided' && (
+            <div className="improv-section">
+              <p className="position-prompt">{question.instruction || 'Improvvisa sulla progressione'}</p>
+              <p className="improv-progression mono">
+                {question.progression.map(d => ROMAN[d]).join(' — ')}
+              </p>
+              <div className="binary-buttons">
+                <button className="binary-btn" onClick={() => handleSelfAssess(true)}>
+                  Soddisfatto
+                </button>
+                <button className="binary-btn" onClick={() => handleSelfAssess(false)}>
+                  Da rifare
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Improvisation record */}
+          {question.type === 'improv_record' && (
+            <div className="improv-section">
+              <p className="position-prompt">Registra la tua improvvisazione e confronta</p>
+              <p className="improv-progression mono">
+                {question.progression.map(d => ROMAN[d]).join(' — ')}
+              </p>
+              <div className="record-controls">
+                {!isRecording && !recordedAudioUrl && (
+                  <button className="play-btn record-btn" onClick={handleStartRecording}>
+                    REC
+                  </button>
+                )}
+                {isRecording && (
+                  <button className="play-btn record-btn recording" onClick={handleStopRecording}>
+                    STOP
+                  </button>
+                )}
+                {recordedAudioUrl && (
+                  <div className="record-playback">
+                    <button className="play-btn" onClick={handlePlayRecording}>
+                      Riascolta
+                    </button>
+                    <button className="play-btn" onClick={handleReplay}>
+                      Originale
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="binary-buttons" style={{ marginTop: '1rem' }}>
+                <button className="binary-btn" onClick={() => handleSelfAssess(true)}>
+                  Soddisfatto
+                </button>
+                <button className="binary-btn" onClick={() => handleSelfAssess(false)}>
+                  Da rifare
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Call and response */}
+          {question.type === 'call_response' && (
+            <div className="improv-section">
+              <p className="position-prompt">Imita il lick che hai sentito</p>
+              <div className="binary-buttons">
+                <button className="binary-btn" onClick={() => handleSelfAssess(true)}>
+                  Imitazione riuscita
+                </button>
+                <button className="binary-btn" onClick={() => handleSelfAssess(false)}>
+                  Da rifare
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Intonation sing */}
+          {question.type === 'intonation_sing' && (
+            <div className="sing-degree-section">
+              <p className="sing-prompt">
+                Canta il grado <span className="mono text-gold">{question.targetDegree}</span>
+              </p>
+              <p className="intonation-hint">Usa un intonatore esterno per verificare</p>
+              {!singRevealed ? (
+                <button className="play-btn" onClick={() => { playNote(question.targetMidi, 1.5); setSingRevealed(true); }}>
+                  Ascolta la risposta
+                </button>
+              ) : (
+                <div className="binary-buttons">
+                  <button className="binary-btn" onClick={() => handleSelfAssess(true)}>
+                    Intonato
+                  </button>
+                  <button className="binary-btn" onClick={() => handleSelfAssess(false)}>
+                    Stonato
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Intonation scale */}
+          {question.type === 'intonation_scale' && (
+            <div className="sing-degree-section">
+              <p className="sing-prompt">Canta tutta la scala in intonazione</p>
+              <p className="intonation-hint">Usa un intonatore esterno per verificare</p>
+              {!singRevealed ? (
+                <button className="play-btn" onClick={() => { playSequence(question.midiNotes, 0.5, 0.1); setSingRevealed(true); }}>
+                  Ascolta la scala corretta
+                </button>
+              ) : (
+                <div className="binary-buttons">
+                  <button className="binary-btn" onClick={() => handleSelfAssess(true)}>
+                    Intonato
+                  </button>
+                  <button className="binary-btn" onClick={() => handleSelfAssess(false)}>
+                    Stonato
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Intonation arpeggio */}
+          {question.type === 'intonation_arpeggio' && (
+            <div className="sing-degree-section">
+              <p className="sing-prompt">
+                Canta gli arpeggi: {question.progression.map(d => ROMAN[d]).join(' — ')}
+              </p>
+              <p className="intonation-hint">Usa un intonatore esterno per verificare</p>
+              {!singRevealed ? (
+                <button className="play-btn" onClick={() => { playChordSequence(question.chordsMidi, 1.5, 0.5); setSingRevealed(true); }}>
+                  Ascolta la risposta
+                </button>
+              ) : (
+                <div className="binary-buttons">
+                  <button className="binary-btn" onClick={() => handleSelfAssess(true)}>
+                    Intonato
+                  </button>
+                  <button className="binary-btn" onClick={() => handleSelfAssess(false)}>
+                    Stonato
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </>
