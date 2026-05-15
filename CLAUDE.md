@@ -129,5 +129,5 @@ Aggiorna questa sezione ogni volta che completi qualcosa di significativo.
 - [x] MONDO V — Armonia avanzata (44 esercizi codificati, 16 nuovi tipi generatore, accordi 7ª/ii-V-I/sostituzioni/riarmonia — da testare nel browser)
 - [x] MONDO VI — Ritmo e poliritmia (32 esercizi codificati, 9 nuovi tipi generatore, RhythmGrid, rhythmEngine potenziato — da testare nel browser)
 - [x] MONDO VII — Trascrizione integrata (48 esercizi, 9 nuovi tipi generatore, melody_over_changes/transcription_core/phrase_relation/improv/call_response/intonation — da testare nel browser)
-- [ ] Statistiche e grafici
-- [ ] Polish visivo finale
+- [x] Statistiche e grafici (StatsPage con chart XP 30 giorni, progressi per mondo, overview)
+- [x] Polish visivo finale (Easter egg per mondo padroneggiato, animazione unlock flash+shake, STATS nav link)

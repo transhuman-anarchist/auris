@@ -299,10 +299,10 @@
 
 ## FASE FINALE — Polish
 
-- [ ] Statistiche globali: grafico accuratezza ultimi 30 giorni
-- [ ] Sistema easter egg (completare tutti gli ori di un mondo)
-- [ ] Animazioni unlock complete e rifinite
-- [ ] Cursor custom (crosshair rosso)
+- [x] Statistiche globali: grafico accuratezza ultimi 30 giorni
+- [x] Sistema easter egg (completare tutti gli ori di un mondo)
+- [x] Animazioni unlock complete e rifinite
+- [x] Cursor custom (crosshair rosso)
 - [ ] Test performance: mappa con 27 nodi a 60fps
 - [ ] Test localStorage: dati persistono correttamente
 - [ ] Test su Chrome e Firefox

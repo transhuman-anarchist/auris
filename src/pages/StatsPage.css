@@ -1,0 +1,182 @@
+.stats-page {
+  min-height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stats-header {
+  text-align: center;
+}
+
+.stats-title {
+  font-size: 1.8rem;
+  color: var(--accent-red);
+  text-shadow: 0 0 20px rgba(196, 30, 58, 0.3);
+}
+
+/* === Overview cards === */
+.stats-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.stats-progress-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.stat-card.wide {
+  grid-column: span 1;
+}
+
+.stat-card-value {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.stat-card-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+/* === Chart === */
+.chart-container {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1rem;
+}
+
+.chart-title {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.chart-svg {
+  width: 100%;
+  height: auto;
+}
+
+/* === Worlds progress === */
+.worlds-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.world-progress-card {
+  padding: 0.75rem 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.world-mastered {
+  border-color: var(--gold-dark);
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.15);
+}
+
+.world-prog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.world-prog-name {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.mastery-badge {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  color: var(--gold);
+  padding: 2px 8px;
+  border: 1px solid var(--gold-dark);
+  border-radius: 2px;
+  background: rgba(201, 168, 76, 0.08);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 6px rgba(201, 168, 76, 0.3);
+  animation: mastery-glow 3s ease-in-out infinite;
+}
+
+@keyframes mastery-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(201, 168, 76, 0.1); }
+  50% { box-shadow: 0 0 12px rgba(201, 168, 76, 0.3); }
+}
+
+.world-prog-bar-track {
+  height: 5px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.world-prog-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-red-dark), var(--gold));
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.world-prog-label {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+/* === Next level === */
+.next-level-section {
+  text-align: center;
+  padding: 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.next-level-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.next-level-xp {
+  font-size: 0.75rem;
+  color: var(--accent-red);
+  margin-top: 0.25rem;
+}

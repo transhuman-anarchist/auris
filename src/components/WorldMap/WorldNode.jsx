@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './WorldMap.css';
 
@@ -8,6 +8,17 @@ const WorldNode = memo(function WorldNode({ chapter, state, unlocked }) {
   const navigate = useNavigate();
   const stars = state?.stars || 0;
   const isCompleted = stars > 0;
+  const [animating, setAnimating] = useState(false);
+  const prevUnlocked = useRef(unlocked);
+
+  useEffect(() => {
+    if (unlocked && !prevUnlocked.current) {
+      setAnimating(true);
+      const timer = setTimeout(() => setAnimating(false), 800);
+      return () => clearTimeout(timer);
+    }
+    prevUnlocked.current = unlocked;
+  }, [unlocked]);
 
   const statusClass = !unlocked
     ? 'node-locked'
@@ -23,7 +34,7 @@ const WorldNode = memo(function WorldNode({ chapter, state, unlocked }) {
 
   return (
     <button
-      className={`world-node ${statusClass}`}
+      className={`world-node ${statusClass} ${animating ? 'node-unlocking' : ''}`}
       onClick={handleClick}
       disabled={!unlocked}
       aria-label={`Capitolo ${chapter.id}: ${chapter.name}${!unlocked ? ' (bloccato)' : ''}`}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import WorldMap from '../components/WorldMap/WorldMap.jsx';
 import XPBar from '../components/HUD/XPBar.jsx';
 import LevelBadge from '../components/HUD/LevelBadge.jsx';
@@ -17,6 +18,7 @@ export default function MapPage() {
             {dailyStreak > 0 && (
               <span className="daily-streak mono">🔥 {dailyStreak}g</span>
             )}
+            <Link to="/stats" className="stats-link mono">STATS</Link>
           </div>
         </div>
         <XPBar />
