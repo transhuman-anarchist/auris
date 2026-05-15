@@ -65,20 +65,12 @@ auris/
 
 ---
 
-## Setup Git — eseguire una volta sola all'inizio
+## Git — regola per ogni sessione
 
-```bash
-git init
-git add .
-git commit -m "init: setup progetto AURIS"
-gh repo create auris --private --source=. --push
-```
-
-Se `gh` non è disponibile, crea il repo manualmente su GitHub e poi:
-```bash
-git remote add origin https://github.com/TUO_USERNAME/auris.git
-git push -u origin main
-```
+**All'inizio di ogni sessione/interazione**, controlla se il repo git è inizializzato (`git status`).
+- Se **non è inizializzato**: esegui `git init`, configura identità (`user.email: fance.salis@gmail.com`, `user.name: gesu`), e fai un commit iniziale con tutto il lavoro presente.
+- Se **è inizializzato**: verifica se ci sono modifiche non committate e, se sì, fai commit prima di iniziare nuovo lavoro.
+- **Commit dopo ogni fase e dopo ogni mondo.** Non aspettare che l'utente lo chieda — fallo automaticamente.
 
 ---
 
@@ -90,7 +82,7 @@ git push -u origin main
 4. **localStorage è l'unica persistenza.** Nessun backend, nessuna fetch a server esterni.
 5. **Dopo ogni mondo completato**, aggiorna i checkbox in `docs/implementation_plan.md`.
 6. **Se incontri un bug**, usa il subagent debugger (`.claude/agents/debugger.md`) prima di procedere.
-7. **Commit Git dopo ogni fase e dopo ogni mondo.** Messaggio commit: `feat: Mondo X completo e testato`.
+7. **Commit Git automatico dopo ogni fase e dopo ogni mondo.** Messaggio commit: `feat: Mondo X completo e testato`. Non aspettare che l'utente lo chieda — fallo subito. All'inizio di ogni sessione, verifica che git sia inizializzato (vedi sezione "Git — regola per ogni sessione").
 8. **Fermati e avvisa l'utente dopo ogni mondo completato.** Non continuare autonomamente al mondo successivo — aspetta conferma esplicita.
 9. **La UI è in italiano.** Tutti i testi visibili all'utente sono in italiano.
 10. **Zero console.error in produzione.** Gestisci tutti gli errori AudioContext gracefully.
