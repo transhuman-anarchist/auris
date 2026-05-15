@@ -1,4 +1,4 @@
-import audioEngine from './AudioEngine.js';
+import audioEngine from './audioEngine.js';
 
 class DroneEngine {
   constructor() {
@@ -11,10 +11,10 @@ class DroneEngine {
     this._stopTimer = null;
   }
 
-  start(midi, { volume = 0.4, timbreKey = 'pad', withFifth = false } = {}) {
+  async start(midi, { volume = 0.4, timbreKey = 'pad', withFifth = false } = {}) {
     this._forceStopOscillators();
     audioEngine.init();
-    audioEngine.resume();
+    await audioEngine.resume();
 
     const ctx = audioEngine.ctx;
     this.gainNode = ctx.createGain();

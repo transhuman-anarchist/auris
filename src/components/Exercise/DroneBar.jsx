@@ -1,11 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
 import droneEngine from '../../audio/droneEngine.js';
+import useGameStore from '../../store/gameStore.js';
 import './Exercise.css';
 
 export default function DroneBar({ rootMidi = 60 }) {
   const [droneOn, setDroneOn] = useState(false);
+  const settings = useGameStore(s => s.settings);
 
-  // Sync local state with actual drone state (drone may be started externally by handlePlay)
   useEffect(() => {
     const interval = setInterval(() => {
       const actual = droneEngine.isPlaying();
@@ -19,10 +20,13 @@ export default function DroneBar({ rootMidi = 60 }) {
       droneEngine.stop();
       setDroneOn(false);
     } else {
-      droneEngine.start(rootMidi);
+      droneEngine.start(rootMidi, {
+        volume: settings.defaultDroneVolume,
+        timbreKey: settings.defaultDroneTimbre,
+      });
       setDroneOn(true);
     }
-  }, [rootMidi]);
+  }, [rootMidi, settings.defaultDroneVolume, settings.defaultDroneTimbre]);
 
   return (
     <div className="drone-bar">

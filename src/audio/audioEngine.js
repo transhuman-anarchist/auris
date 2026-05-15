@@ -358,9 +358,9 @@ class AudioEngine {
     return midi;
   }
 
-  playNote(timbreKey, midi, duration = 1.0, volume = 0.6) {
+  async playNote(timbreKey, midi, duration = 1.0, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const timbre = TIMBRES[timbreKey] || TIMBRES.piano;
     const freq = this.midiToFreq(midi);
     const node = timbre.create(this.ctx, freq, duration, volume);
@@ -368,9 +368,9 @@ class AudioEngine {
     this._track(node);
   }
 
-  playNoteSequence(timbreKey, midiNotes, noteDuration = 0.5, gap = 0.05, volume = 0.6) {
+  async playNoteSequence(timbreKey, midiNotes, noteDuration = 0.5, gap = 0.05, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const timbre = TIMBRES[timbreKey] || TIMBRES.piano;
     midiNotes.forEach((midi, i) => {
       const delay = i * (noteDuration + gap);
@@ -384,9 +384,9 @@ class AudioEngine {
     });
   }
 
-  playPhraseAtBPM(timbreKey, midiNotes, bpm, rhythmPattern, volume = 0.6) {
+  async playPhraseAtBPM(timbreKey, midiNotes, bpm, rhythmPattern, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const timbre = TIMBRES[timbreKey] || TIMBRES.piano;
     const beatDuration = 60 / bpm;
     let offset = 0;
@@ -405,9 +405,9 @@ class AudioEngine {
     return offset;
   }
 
-  playBend(timbreKey, startMidi, targetMidi, duration = 0.8, volume = 0.6) {
+  async playBend(timbreKey, startMidi, targetMidi, duration = 0.8, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const ctx = this.ctx;
     const now = ctx.currentTime;
     const out = ctx.createGain();
@@ -436,9 +436,9 @@ class AudioEngine {
     this._track(out);
   }
 
-  playLegatoPair(timbreKey, midi1, midi2, totalDuration = 1.0, volume = 0.6) {
+  async playLegatoPair(timbreKey, midi1, midi2, totalDuration = 1.0, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const ctx = this.ctx;
     const now = ctx.currentTime;
     const half = totalDuration / 2;
@@ -468,9 +468,9 @@ class AudioEngine {
     this._track(out);
   }
 
-  playSlide(timbreKey, startMidi, endMidi, duration = 1.0, volume = 0.6) {
+  async playSlide(timbreKey, startMidi, endMidi, duration = 1.0, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const ctx = this.ctx;
     const now = ctx.currentTime;
     const out = ctx.createGain();
@@ -498,9 +498,9 @@ class AudioEngine {
     this._track(out);
   }
 
-  playNoteWithVibrato(timbreKey, midi, duration = 1.2, vibratoDirection = 1, volume = 0.6) {
+  async playNoteWithVibrato(timbreKey, midi, duration = 1.2, vibratoDirection = 1, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const ctx = this.ctx;
     const now = ctx.currentTime;
     const freq = this.midiToFreq(midi);
@@ -539,9 +539,9 @@ class AudioEngine {
     this._track(out);
   }
 
-  playGhostNote(duration = 0.08, volume = 0.3) {
+  async playGhostNote(duration = 0.08, volume = 0.3) {
     this.init();
-    this.resume();
+    await this.resume();
     const ctx = this.ctx;
     const now = ctx.currentTime;
 
@@ -571,9 +571,9 @@ class AudioEngine {
     this._track(out);
   }
 
-  playChord(timbreKey, midiNotes, duration = 1.0, volume = 0.6) {
+  async playChord(timbreKey, midiNotes, duration = 1.0, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const timbre = TIMBRES[timbreKey] || TIMBRES.piano;
     const noteVol = volume * (1.2 / Math.sqrt(midiNotes.length));
     midiNotes.forEach(midi => {
@@ -584,9 +584,9 @@ class AudioEngine {
     });
   }
 
-  playChordSequence(timbreKey, chordsArray, chordDuration = 1.0, gap = 0.3, volume = 0.6) {
+  async playChordSequence(timbreKey, chordsArray, chordDuration = 1.0, gap = 0.3, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     chordsArray.forEach((chord, i) => {
       const delay = i * (chordDuration + gap);
       const timerId = setTimeout(() => {
@@ -597,9 +597,9 @@ class AudioEngine {
     return chordsArray.length * (chordDuration + gap);
   }
 
-  playChordProgressionAtBPM(timbreKey, chordsArray, bpm, volume = 0.6) {
+  async playChordProgressionAtBPM(timbreKey, chordsArray, bpm, volume = 0.6) {
     this.init();
-    this.resume();
+    await this.resume();
     const beatDuration = 60 / bpm;
     const chordDuration = beatDuration * 0.9;
     chordsArray.forEach((chord, i) => {

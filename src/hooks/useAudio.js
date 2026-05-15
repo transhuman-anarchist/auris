@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import audioEngine from '../audio/AudioEngine.js';
+import audioEngine from '../audio/audioEngine.js';
 import droneEngine from '../audio/droneEngine.js';
 import useGameStore from '../store/gameStore.js';
 

@@ -1,4 +1,4 @@
-import audioEngine from './AudioEngine.js';
+import audioEngine from './audioEngine.js';
 
 class RhythmEngine {
   constructor() {
